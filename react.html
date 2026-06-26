@@ -1,10 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React</title>
     <link rel="stylesheet" href="style.css" />
-    <title>TABLA IMC</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.21.4/babel.min.js"></script>
   </head>
   <body>
     <header>
@@ -12,5 +14,165 @@
         <a id="navegacion" href="index.html">VOLVER A PRINCIPAL</a>
       </nav>
     </header>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState } = React;
+
+      function TablaPersonas({ personas, eliminarPersona }) {
+        return (
+          <table border="1">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Edad</th>
+                <th>Altura</th>
+                <th>Peso</th>
+                <th>IMC</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {personas.map((persona, indice) => (
+                <tr key={indice}>
+                  <td>{persona.nombre}</td>
+                  <td>{persona.apellido}</td>
+                  <td>{persona.edad}</td>
+                  <td>{persona.altura}</td>
+                  <td>{persona.peso}</td>
+                  <td>{persona.imc}</td>
+                  <td>
+                    <button onClick={() => eliminarPersona(indice)}>
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        );
+      }
+
+      function App() {
+        const [personas, setPersonas] = useState([]);
+
+        const [nombre, setNombre] = useState("");
+        const [apellido, setApellido] = useState("");
+        const [edad, setEdad] = useState("");
+        const [altura, setAltura] = useState("");
+        const [peso, setPeso] = useState("");
+
+        function agregarPersona(e) {
+          e.preventDefault();
+
+          const nuevaPersona = {
+            nombre,
+            apellido,
+            edad,
+            altura,
+            peso,
+            imc: (peso / (altura / 100) ** 2).toFixed(2),
+          };
+
+          setPersonas([...personas, nuevaPersona]);
+
+          setNombre("");
+          setApellido("");
+          setEdad("");
+          setAltura("");
+          setPeso("");
+        }
+
+        function eliminarPersona(indice) {
+          setPersonas(personas.filter((_, i) => i !== indice));
+        }
+
+        return (
+          <>
+            <form onSubmit={agregarPersona}>
+              <input
+                className="agregarValor"
+                type="text"
+                placeholder="Nombre"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+                required
+              />
+
+              <input
+                className="agregarValor"
+                type="text"
+                placeholder="Apellido"
+                value={apellido}
+                onChange={(e) => setApellido(e.target.value)}
+                required
+              />
+
+              <input
+                className="agregarValor"
+                type="number"
+                placeholder="Edad"
+                value={edad}
+                onChange={(e) => setEdad(e.target.value)}
+                min="10"
+                max="100"
+                required
+              />
+
+              <input
+                className="agregarValor"
+                type="number"
+                placeholder="Altura"
+                value={altura}
+                onChange={(e) => setAltura(e.target.value)}
+                min="150"
+                max="230"
+                required
+              />
+
+              <input
+                className="agregarValor"
+                type="number"
+                placeholder="Peso"
+                value={peso}
+                onChange={(e) => setPeso(e.target.value)}
+                min="10"
+                max="250"
+                required
+              />
+
+              <button className="botonValor" type="submit">
+                Agregar
+              </button>
+
+              <button
+                className="botonValor"
+                type="button"
+                onClick={() => {
+                  setNombre("");
+                  setApellido("");
+                  setEdad("");
+                  setAltura("");
+                  setPeso("");
+                }}
+              >
+                Deshacer
+              </button>
+            </form>
+
+            <TablaPersonas
+              personas={personas}
+              eliminarPersona={eliminarPersona}
+            />
+          </>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
   </body>
 </html>
