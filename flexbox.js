@@ -1,16 +1,16 @@
 const elementos = [
   {
-    nombre: "Guiso de lentejas light",
+    nombre: "Guiso de lentejas light.",
     descripcion: "Nada de agregar panceta y cosas caloricas",
   },
-  { nombre: "Ensalada de frutas", descripcion: "Ideal para tardes calurosas" },
+  { nombre: "Ensalada de frutas.", descripcion: "Ideal para tardes calurosas" },
   {
-    nombre: "Milanesas al horno con ensalada",
+    nombre: "Milanesas al horno con ensalada.",
     descripcion: "Buena idea para un almuerzo liviano",
   },
-  { nombre: "Carne con verduras al horno", descripcion: "Rapido y practico" },
-  { nombre: "Ceviche", descripcion: "Plato exotico pero no menos delicioso" },
-  { nombre: "Yogurt con granola", descripcion: "Ideal de preentreno" },
+  { nombre: "Carne con verduras al horno.", descripcion: "Rapido y practico" },
+  { nombre: "Ceviche.", descripcion: "Plato exotico pero no menos delicioso" },
+  { nombre: "Yogurt con granola.", descripcion: "Ideal de preentreno" },
 ];
 
 function generarBloques() {
