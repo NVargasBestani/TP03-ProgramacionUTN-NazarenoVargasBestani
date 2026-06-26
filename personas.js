@@ -1,31 +1,59 @@
 const personas = [];
 
+const formulario = document.getElementById("formularioPersonas");
+const inputNombre = document.getElementById("nombre");
+const inputApellido = document.getElementById("apellido");
+const inputEdad = document.getElementById("edad");
+const inputAltura = document.getElementById("altura");
+const inputPeso = document.getElementById("peso");
+
+const cuerpoTabla = document.getElementById("cuerpoTabla");
+
 formulario.addEventListener("submit", function (e) {
   e.preventDefault();
+
+  const nuevaPersona = {
+    nombre: inputNombre.value,
+    apellido: inputApellido.value,
+    edad: inputEdad.value,
+    altura: inputAltura.value,
+    peso: inputPeso.value,
+    imc: (inputPeso.value / (inputAltura.value / 100) ** 2).toFixed(2),
+  };
+
+  personas.push(nuevaPersona);
+
+  mostrarPersona();
+
+  formulario.reset();
 });
 
-const nuevaPersona = {
-  nombre: inputNombre.value,
-  apellido: inputApellido.value,
-  edad: inputEdad.value,
-  altura: inputAltura.value,
-  peso: inputPeso.value,
-};
-
-personas.push(nuevaPersona);
-
 function mostrarPersona() {
-  personas.forEach((persona) => {
-    const bloque = document.createElement("div");
-    bloque.className = "persona-bloque";
+  cuerpoTabla.innerHTML = "";
 
-    bloque.innerHTML = `
-        <div class="persona-nombre"> ${persona.nombre} </div>
-        <div class="persona-apellido"> ${persona.apellido} </div>
-        <div class="persona-edad"> ${persona.edad} </div>
-        <div class="persona-altura"> ${persona.altura} </div>
-        <div class="persona-peso"> ${persona.peso} </div>
-        `;
-    gridPersonas.appendChild(bloque);
+  personas.forEach((persona, indice) => {
+    const fila = document.createElement("tr");
+
+    fila.innerHTML = `
+      <td>${persona.nombre}</td>
+      <td>${persona.apellido}</td>
+      <td>${persona.edad}</td>
+      <td>${persona.altura}</td>
+      <td>${persona.peso}</td>
+      <td>${persona.imc}</td>
+      <td>
+        <button onclick="eliminarPersona(${indice})">
+          Eliminar
+        </button>
+      </td>
+    `;
+
+    cuerpoTabla.appendChild(fila);
   });
+}
+
+function eliminarPersona(indice) {
+  personas.splice(indice, 1);
+
+  mostrarPersona();
 }
